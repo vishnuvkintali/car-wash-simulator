@@ -34,8 +34,8 @@ def run_day():
             if Minute == BayFreeAt[b] and Minute > 0: 
                 CarsWashed += 1
                 # print("A wash finished at minute: " + str(Minute))
-        if Queue < MaxLine:
-            if random.random() < 1 / ArrivalRate:
+        if random.random() < 1 / ArrivalRate:
+            if Queue < MaxLine:
                 Queue += 1 
                 # print("1 car joins the line. Queue: " + str(Queue))
                 CarsArrived += 1
@@ -50,7 +50,7 @@ def run_day():
                 # print("A wash has started. Queue: " + str(Queue))
         TotalWait += Queue
     AverageWait = TotalWait/CarsArrived
-    return CarsWashed, MaxQueue, AverageWait
+    return CarsWashed, MaxQueue, AverageWait, TurnedAway
 
 
 
@@ -58,15 +58,19 @@ def run_day():
 TotalWashed = 0
 TotalWait = 0
 WorstQueue = 0
+TotalTurnedAway = 0
 for i in range(Days):
-      CarsWashed, MaxQueue, AverageWait = run_day()
+      CarsWashed, MaxQueue, AverageWait, TurnedAway = run_day()
       TotalWashed += CarsWashed
       TotalWait += AverageWait
+      TotalTurnedAway += TurnedAway
       if MaxQueue > WorstQueue:
           WorstQueue = MaxQueue
 AvgWashed = TotalWashed / Days
+AvgTurnedAway = TotalTurnedAway / Days
 AvgWaitOverall = TotalWait / Days
 print("-----SIMULATION RESULTS-----")
 print("Cars washed: " + str(round(AvgWashed)) + " cars.")
 print("Max length of cars waiting: " + str(WorstQueue) + " cars in line.")
 print("The average wait time of cars was: " + str(round(AvgWaitOverall,1)) + " minutes.")
+print("The average amount of cars turned away was: " + str(round(AvgTurnedAway,1))+ " Cars.") 
